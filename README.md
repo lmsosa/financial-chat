@@ -24,6 +24,10 @@ This is an exercise that implements a thematic chat room (financial in this case
 
 1. Check SQL Local DB and Rabbit MQ configuration on appsettings.json
 2. Navigate to `src/Web` and run `dotnet run` to launch the project
+3. There are 2 predefined users: 
+   lmsosa@gmail.com (pass: Chat123$)
+   jeancarlos@gmail.com (pass: Chat123$)
+   Anyways you can register a new one and use it.
 
 ## Overview
 

@@ -35,7 +35,6 @@ namespace FinancialChat.MessageBroker.RabbitMq
             {
                 _channel.QueueBind(QueueName, ExchangeName, string.Empty);
             }
-            _channel.BasicQos(0, 1, false);
         }
 
         public Task StartAsync()
@@ -45,10 +44,9 @@ namespace FinancialChat.MessageBroker.RabbitMq
             {
                 var content = System.Text.Encoding.UTF8.GetString(ea.Body);
                 HandleMessage(content);
-                _channel.BasicAck(ea.DeliveryTag, false);
             };
 
-            _channel.BasicConsume(QueueName, false, consumer);
+            _channel.BasicConsume(QueueName, true, consumer);
             return Task.CompletedTask;
         }
 

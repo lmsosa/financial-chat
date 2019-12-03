@@ -25,10 +25,11 @@ namespace FinancialChat.Application.Bot.Commands
 
         public async Task<Unit> Handle(FetchStockQuoteRequest request, CancellationToken cancellationToken)
         {
-            var stockQuote = await _stockService.GetStockQuote(request.StockCode);
+            var chatMessage = new ChatMessage("Financial Bot",
+                                              await _stockService.GetStockQuote(request.StockCode),
+                                              _dateTimeService.Now);
 
-            await _chatRoom.SendMessageToAll(new ChatMessage("Financial Bot", stockQuote, _dateTimeService.Now));
-
+            await _chatRoom.SendMessageToAll(chatMessage);
             return Unit.Value;
         }
     }
