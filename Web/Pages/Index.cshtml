@@ -1,0 +1,94 @@
+﻿@page
+@inject UserManager<FinancialChatUser> UserManager
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/css/chat.css" type="text/css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet" />
+
+<div class="container">
+    <h3 class=" text-center">Hello @UserManager.GetUserName(User)!</h3>
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h4>Groups</h4>
+                    </div>
+                </div>
+                <div class="inbox_chat">
+                    <div class="chat_list active_chat">
+                        <div class="chat_people">
+                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                            <div class="chat_ib">
+                                <h5>The Financial Tribe <span class="chat_date">Dec 25</span></h5>
+                                <p>
+                                    This is a group we use to discuss finance.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mesgs">
+                <div id="msg_history" class="msg_history">
+                    @{ 
+                        var currentUserName = UserManager.GetUserName(User);
+                    }
+                    @foreach (var chatMessage in Model.ChatMessages)
+                    {
+                        if (chatMessage.UserName != currentUserName)
+                        {
+                            <div class="incoming_msg">
+                                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+                                        <p>@chatMessage.Message</p>
+                                        <span class="time_date">@($"{ chatMessage.UserName }    | { chatMessage.DateTime.ToString("dd/MM/yyyy HH:mm") }") </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <p>@chatMessage.Message</p>
+                                    <span class="time_date">@($"You    | { chatMessage.DateTime.ToString("dd/MM/yyyy HH:mm") }") </span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <input type="text" id="message" class="write_msg" placeholder="Type a message" />
+                        <button id="sendButton" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <p class="text-center top_spac"> Developed by <a target="_blank" href="https://www.linkedin.com/in/luismartinsosa/">Luis Sosa</a></p>
+
+    </div>
+</div>
+
+<script src="~/lib/signalr/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
+<script type="text/javascript">
+
+    userName = '@(UserManager.GetUserName(User))';
+
+    $(document).ready(function () {
+        $("#msg_history").scrollTop($("#msg_history")[0].scrollHeight);
+    }); 
+
+</script>
